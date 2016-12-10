@@ -1,0 +1,49 @@
+      Tables_in_ghtorrent
+0         commit_comments +
+1          commit_parents
+2                 commits +
+3               followers +
+4          issue_comments
+5            issue_events
+6            issue_labels
+7                  issues
+8    organization_members +
+9         project_commits
+10      project_languages
+11        project_members +
+12               projects +
+13  pull_request_comments
+14   pull_request_commits
+15   pull_request_history
+16          pull_requests
+17            repo_labels
+18        repo_milestones
+19                  users +
+20               watchers ?
+
+project_commits
+        Field     Type Null  Key Default Extra
+0  project_id  int(11)   NO  PRI    None      
+1   commit_id  int(11)   NO  PRI    None      
+
+commits
+          Field         Type Null  Key            Default           Extra
+0            id      int(11)   NO  PRI               None  auto_increment
+1           sha  varchar(40)  YES  UNI               None                
+2     author_id      int(11)  YES  MUL               None                
+3  committer_id      int(11)  YES  MUL               None                
+4    project_id      int(11)  YES  MUL               None                
+5    created_at    timestamp   NO       CURRENT_TIMESTAMP                
+
+watchers
+        Field       Type Null  Key            Default Extra
+0     repo_id    int(11)   NO  PRI               None      
+1     user_id    int(11)   NO  PRI               None      
+2  created_at  timestamp   NO       CURRENT_TIMESTAMP      
+
+project_members
+        Field         Type Null  Key            Default Extra
+0     repo_id      int(11)   NO  PRI               None      
+1     user_id      int(11)   NO  PRI               None      
+2  created_at    timestamp   NO       CURRENT_TIMESTAMP      
+3  ext_ref_id  varchar(24)   NO                       0      
