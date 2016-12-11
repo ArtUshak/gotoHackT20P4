@@ -37,7 +37,6 @@ def get_user_matches(user_name, language):
     k = 0.1
     
     my_average_commits = float(my_average_commits)
-    print(data.commit_num - my_average_commits)
     data['sort_data'] = (user_average_commits.commit_num - my_average_commits).abs()
     my_matches = data[data.language.str.contains(language) & (data.login != user_name)]
     my_matches = my_matches.sort_values('sort_data')
