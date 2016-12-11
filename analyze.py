@@ -3,6 +3,7 @@ import pandas as pd
 import sqlalchemy as sqlalc
 from functools import *
 import time
+import sys
 
 engine = sqlalc.create_engine('mysql://ght:@127.0.0.1/ghtorrent')
 
@@ -37,8 +38,10 @@ def get_user_id(user_name):
     return data.owner_id[0]
 
 user_id_start = get_user_id("Vany")
-user_num = 1000
-#user_num = 8
+if len(sys.argv) >= 2:
+    user_num = int(sys.argv[1]
+else:
+    user_num = 1000
 
 user_average_commits = None
 user_languages = None
