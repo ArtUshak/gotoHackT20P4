@@ -45,7 +45,3 @@ def get_user_matches(user_name, language):
     if len(my_matches) == 0:
         return None
     return my_matches.login.iloc[0]
-
-name = input()
-lang = input()
-print(get_user_matches(name, lang))
