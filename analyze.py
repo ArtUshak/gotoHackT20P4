@@ -39,7 +39,7 @@ def get_user_id(user_name):
 
 user_id_start = get_user_id("Vany")
 if len(sys.argv) >= 2:
-    user_num = int(sys.argv[1]
+    user_num = int(sys.argv[1])
 else:
     user_num = 1000
 
