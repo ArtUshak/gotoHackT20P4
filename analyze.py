@@ -37,7 +37,7 @@ def get_user_id(user_name):
     return data.owner_id[0]
 
 user_id_start = get_user_id("Vany")
-user_num = 100
+user_num = 500
 #user_num = 8
 
 user_average_commits = None
@@ -52,21 +52,22 @@ def load_data(user_id_start, user_num):
     global user_last_activities
     global users
     
-    query_commits = "SELECT c.author_id AS id, c.project_id, c.created_at, SUM(1) AS commit_num FROM commits c WHERE c.author_id>=%s AND c.author_id<%s GROUP BY c.author_id, c.project_id ;"
+    query_commits = "SELECT c.author_id AS id, c.project_id, c.created_at, SUM(1) AS commit_num FROM commits c WHERE c.author_id>=%s AND c.author_id<%s GROUP BY id, c.project_id ;"
     data_commits = pd.read_sql(query_commits, engine, params = [user_id_start, user_id_start + user_num])
-    commit_groups = data_commits.groupby('author_id')
+    commit_groups = data_commits.groupby('id')
     
     user_average_commits = commit_groups.commit_num.mean()
     
     user_last_activities = commit_groups.created_at.max()
     
-    query_projects = "SELECT pm.user_id, pr.language FROM project_members pm JOIN projects pr WHERE pm.user_id>=%s AND pm.user_id<%s AND pm.repo_id=pr.id ;"
+    query_projects = "SELECT pm.user_id AS id, pr.language FROM project_members pm JOIN projects pr WHERE pm.user_id>=%s AND pm.user_id<%s AND pm.repo_id=pr.id ;"
     data_projects = pd.read_sql(query_projects, engine, params = [user_id_start, user_id_start + user_num])
     
-    user_languages = data_projects.groupby('user_id').language.unique()
+    user_languages = data_projects.groupby('id').language.unique()
     
-    query_users = "SELECT u.id, u.location, u.state, u.city FROM users u WHERE u.id>=%s AND u.id<%s"
+    query_users = "SELECT u.id AS id, u.login, u.location, u.state, u.city FROM users u WHERE u.id>=%s AND u.id<%s ;"
     users = pd.read_sql(query_users, engine, params = [user_id_start, user_id_start + user_num])
+    users = users.groupby('id').first()
 
 time1 = time.perf_counter()
 
