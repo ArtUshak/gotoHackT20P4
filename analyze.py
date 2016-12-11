@@ -37,7 +37,7 @@ def get_user_id(user_name):
     return data.owner_id[0]
 
 user_id_start = get_user_id("Vany")
-user_num = 500
+user_num = 1000
 #user_num = 8
 
 user_average_commits = None
@@ -75,8 +75,6 @@ load_data(user_id_start, user_num)
 
 time2 = time.perf_counter()
 
-#user_data = pd.concat([user_average_commits, user_languages, user_last_activities, users])
-#user_data.to_csv("data/user_data.csv", header=True)
 user_average_commits.to_csv("data/user_average_commits.csv", header=True)
 user_languages.to_csv("data/user_languages.csv", header=True)
 user_last_activities.to_csv("data/user_last_activities.csv", header=True)

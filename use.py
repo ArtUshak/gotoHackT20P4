@@ -7,7 +7,7 @@ def get_user_id(engine, user_name):
     query = "SELECT p.owner_id FROM projects p JOIN users u ON u.id=p.owner_id WHERE u.login=%s LIMIT 1 ;"
     data = pd.read_sql(query, engine, params = [user_name])
     if len(data) == 0:
-        return "-1"
+        return -1
     return data.owner_id[0]
 
 def get_user_matches(user_name, language):
@@ -21,6 +21,8 @@ def get_user_matches(user_name, language):
     data = pd.merge(left=user_average_commits, right=pd.merge(left=user_languages, right=pd.merge(left=user_last_activities, right=users)))
     
     my_user_id = get_user_id(engine, user_name)
+    if my_user_id < 0:
+        return None
     
     query_commits = "SELECT c.author_id AS id, c.project_id, c.created_at, SUM(1) AS commit_num FROM commits c WHERE id=%s GROUP BY c.author_id, c.project_id ;"
     data_commits = pd.read_sql(query_commits, engine, params = [my_user_id])
