@@ -1,11 +1,9 @@
 import numpy as np
 import pandas as pd
-import sqlalchemy as sqlalc
+import github3
 from functools import *
 import time
 import sys
-
-engine = sqlalc.create_engine('mysql://ght:@127.0.0.1/ghtorrent')
 
 #from http://stackoverflow.com/questions/34411495/pandas-merge-several-dataframes
 def my_merge(dfs):
@@ -20,6 +18,21 @@ def my_merge(dfs):
     for df_i in dfs:
         df.loc[df_i.index, df_i.columns] = df_i.values
     return df
+
+repo_num = 5
+
+def authorize():
+    with open('../github-login.txt') as login_file:
+        login = login_file.readline().strip()
+        password = login_file.readline().strip()
+    github3.authorize(login, password, ['repository'])
+
+authorize()
+data = pd.DataFrame({'lang':[[lang[0] for lang in repo.iter_languages()] for repo in github3.iter_all_repos(repo_num)]}, columns=['id', 'lang'])
+print(data)
+
+"""
+engine = sqlalc.create_engine('mysql://ght:@127.0.0.1/ghtorrent')
 
 def get_user_name(user_id):
     global engine
@@ -72,6 +85,9 @@ def load_data(user_id_start, user_num):
     users = pd.read_sql(query_users, engine, params = [user_id_start, user_id_start + user_num])
     users = users.groupby('id').first()
 
+"""
+
+"""
 time1 = time.perf_counter()
 
 load_data(user_id_start, user_num)
@@ -90,3 +106,4 @@ engine.dispose()
 print("Loaded")
 print("Stage 1: %s sec, %s sec per user" % (str(time2 - time1), str((time2 - time1) / user_num)))
 print("Stage 2: %s sec" % (str(time3 - time2)))
+"""

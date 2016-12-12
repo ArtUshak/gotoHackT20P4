@@ -10,7 +10,7 @@ def get_token():
     token = None
     try:
         with open('../t20p4-token.txt') as token_file:
-            token = token_file.readline()
+            token = token_file.readline().strip()
     except FileNotFoundError:
         log('Can not found token file', 'ERROR')
     except BufferError:
