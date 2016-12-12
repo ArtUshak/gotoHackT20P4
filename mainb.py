@@ -1,8 +1,14 @@
+#TODO
+
 import numpy as np
 import pandas as pd
-import sqlalchemy as sqlalc
+#import sqlalchemy as sqlalc
 from functools import *
 
+def get_user_matches(user_name, language):
+    return "~INVALID_USER_WIP"
+
+"""
 def get_user_id(engine, user_name):
     query = "SELECT p.owner_id FROM projects p JOIN users u ON u.id=p.owner_id WHERE u.login=%s LIMIT 1 ;"
     data = pd.read_sql(query, engine, params = [user_name])
@@ -45,3 +51,4 @@ def get_user_matches(user_name, language):
     if len(my_matches) == 0:
         return None
     return my_matches.login.iloc[0]
+"""
