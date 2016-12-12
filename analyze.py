@@ -19,16 +19,37 @@ def my_merge(dfs):
         df.loc[df_i.index, df_i.columns] = df_i.values
     return df
 
-repo_num = 5
+repo_num = 40
+
+users = {}
+
+def register_user(user_name):
+    users[user_name] = [user_name, set()]
 
 def authorize():
     with open('../github-login.txt') as login_file:
         login = login_file.readline().strip()
         password = login_file.readline().strip()
-    github3.authorize(login, password, ['repository'])
+    gh = github3.login(login, password)
+    return gh
 
-authorize()
-data = pd.DataFrame({'lang':[[lang[0] for lang in repo.iter_languages()] for repo in github3.iter_all_repos(repo_num)]}, columns=['id', 'lang'])
+languages = []
+ids = []
+
+gh = authorize()
+
+time1 = time.perf_counter()
+
+for repo in gh.iter_all_repos(repo_num):
+    languages += [[lang[0] for lang in repo.iter_languages()]]
+    ids += [repo.id]
+    #
+
+time2 = time.perf_counter()
+
+print("Stage 1: %s sec, %s sec per repo" % (str(time2 - time1), str((time2 - time1) / repo_num)))
+
+data = pd.DataFrame({'id':ids, 'lang':languages}, columns=['id', 'lang'])
 print(data)
 
 """
