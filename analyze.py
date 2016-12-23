@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-import github3
+#import github3
+import sqlalchemy as sqlalc
 from functools import *
 import time
 import sys
@@ -19,6 +20,7 @@ def my_merge(dfs):
         df.loc[df_i.index, df_i.columns] = df_i.values
     return df
 
+"""
 repo_num = 40
 
 users = {}
@@ -106,9 +108,6 @@ def load_data(user_id_start, user_num):
     users = pd.read_sql(query_users, engine, params = [user_id_start, user_id_start + user_num])
     users = users.groupby('id').first()
 
-"""
-
-"""
 time1 = time.perf_counter()
 
 load_data(user_id_start, user_num)
@@ -127,4 +126,3 @@ engine.dispose()
 print("Loaded")
 print("Stage 1: %s sec, %s sec per user" % (str(time2 - time1), str((time2 - time1) / user_num)))
 print("Stage 2: %s sec" % (str(time3 - time2)))
-"""
